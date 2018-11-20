@@ -8,16 +8,24 @@ public class Main {
    static List<Person> records = new ArrayList<Person>() ;
 
     public static void main(String[] args) {
-        for(; ;){
+        for(;;){
          System.out.print("cmd:");
          String cmd  = scanner.next();
          switch (cmd) {
-             case "help";
+		 case :create":
+			 createPerson();
+			 break;
+		 case "help":
              showHelp();
              break;
-             case "create";
-                 create();
+		 case "list":
+                 list();
                  break;
+		 case "exit":
+                return;
+                 break;	 
+		 default:
+			 System.out.println("Wrong command. Try 'help'");
 
          }
 
