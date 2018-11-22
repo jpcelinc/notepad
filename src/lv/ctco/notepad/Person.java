@@ -9,10 +9,13 @@ public class Person {
     private String firstName;
     private String lastName;
     private String email;
- public Person() {
-     counter++;
-     id = counter;
- }
+    private String phone;
+
+    public Person() {
+        counter++;
+        id = counter;
+    }
+
     public int getId() {
         return id;
     }
@@ -42,6 +45,15 @@ public class Person {
         this.email = email;
     }
 
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     @Override
     public String toString() {
         return "Person{" +
@@ -49,7 +61,7 @@ public class Person {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
-                ", counter='" + counter + '\'' +
+                ", phone='" + phone + '\'' +
                 '}';
     }
 }
