@@ -57,12 +57,12 @@ Person extends Record {
     @Override
     public String toString() {
         return "Person{" +
-                ",Id='" + getId() + '\'' +
+                "Id='" + getId() + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", gender='" + gender + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
+                ", gender='" + gender + '\'' +
                 '}';
     }
 
@@ -79,20 +79,11 @@ Person extends Record {
     @Override
     public void askData() {
 
-        Person p = new Person();
-        String firstName = Main.askString("First Name");
-        p.setFirstName(firstName);
-
-        String lastName = Main.askString("Last Name");
-        p.setLastName(lastName);
-        String gendr = Main.askString("Gender");
-        p.setGender(gender);
-
-        String email = Main.askString("Email");
-        p.setEmail(email);
-
-        String phone = Main.askPhone("Phone");
-        p.setPhone(phone);
+         firstName = Main.askString("First Name");
+         lastName = Main.askString("Last Name");
+         gender = Main.askString("Gender");
+         email = Main.askString("Email");
+         phone = Main.askPhone("Phone");
 
     }
 }
