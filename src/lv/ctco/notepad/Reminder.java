@@ -1,5 +1,6 @@
 package lv.ctco.notepad;
 
+import java.time.ZoneId;
 import java.util.Date;
 
 /**
@@ -31,7 +32,8 @@ public class Reminder
         return "Reminder{" +
                 "Id='" + getId() + '\'' +
                 ", Text='" + text + '\'' +
-                ", Date='" + date.toString() + '\'' +
+              //  ", Date='" + date.toString() + '\'' +
+                ", Date='" + date.toInstant().atZone(ZoneId.systemDefault()).toString() + '\'' +
                 '}';
     }
 
