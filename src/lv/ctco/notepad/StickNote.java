@@ -4,7 +4,7 @@ package lv.ctco.notepad;
  * Created by yelena.pchelinceva on 11/23/2018.
  */
 public class StickNote
-    extends Record {
+        extends Record {
     private String text;
 
     public String getText() {
@@ -18,8 +18,8 @@ public class StickNote
     @Override
     public String toString() {
         return "StickNote{" +
-                ",Id='" + getId() + '\'' +
-                "Text='" + text + '\'' +
+                "Id='" + getId() + '\'' +
+                ", Text='" + text + '\'' +
                 '}';
     }
 
@@ -30,9 +30,7 @@ public class StickNote
 
     @Override
     public void askData() {
-        StickNote p = new StickNote();
-        String Text = Main.askString("Enter text");
-        p.setText(Text);
+        text = Main.askString("Enter text");
 
     }
 }
