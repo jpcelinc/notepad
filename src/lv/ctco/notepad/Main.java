@@ -2,11 +2,18 @@ package lv.ctco.notepad;
 
 import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
+//import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.*;
+
+import static java.time.LocalDate.*;
 
 
 public class Main {
+    public static final String DATE_PATTERN = "dd-MM-uuuu";
+    public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(DATE_PATTERN);
     static Scanner scanner = new Scanner(System.in);
     static List<Record> records = new ArrayList<>();
 
@@ -155,22 +162,18 @@ public class Main {
         }
     }
 
-    public static Date askDate(String msg) {
-        DateFormat format = new SimpleDateFormat("dd/MM/yyyy/HH:mm");
-               //, Locale.US);
-        Date date = null;
-        // while (true)
-        //    try {
-        //        Date date1 = new SimpleDateFormat("dd/mm/yyyy").parse(askString("Enter date"));
-        //       return date1;
-        while (date == null) {
-            String sdate = askString("Enter date .For example '" + format.format(new Date())+ "'");
-            try {
-                date = format.parse(sdate);
+    public static LocalDate askDate(String msg) {
 
-            } catch (ParseException e) {
-            System.out.println("Sorry, that's not valid. Please try again.");
-            }
+        LocalDate date = null;
+
+        while (date == null) {
+            try {
+                String sdate = askString("Enter date .For example '" + LocalDate.now().format(Main.DATE_FORMATTER) + "'");
+                date = LocalDate.parse(sdate, DATE_FORMATTER);
+            } catch (DateTimeParseException e) {
+                System.out.println("invalid date");
+                       }
+
         }
         return date;
     }
