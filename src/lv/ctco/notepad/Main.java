@@ -156,7 +156,7 @@ public class Main {
     }
 
     public static Date askDate(String msg) {
-        DateFormat format = new SimpleDateFormat("dd-M-yyyy");
+        DateFormat format = new SimpleDateFormat("dd/MM/yyyy/HH:mm");
                //, Locale.US);
         Date date = null;
         // while (true)
@@ -164,7 +164,7 @@ public class Main {
         //        Date date1 = new SimpleDateFormat("dd/mm/yyyy").parse(askString("Enter date"));
         //       return date1;
         while (date == null) {
-            String sdate = askString("Enter date .For example " + format.format(new Date()));
+            String sdate = askString("Enter date .For example '" + format.format(new Date())+ "'");
             try {
                 date = format.parse(sdate);
 
