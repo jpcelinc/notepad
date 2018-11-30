@@ -1,9 +1,9 @@
 package lv.ctco.notepad;
 
-import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.Scanner;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 
 public class Main {
@@ -21,6 +21,10 @@ public class Main {
                 case "cp":
                 case "createPerson":
                     createRecord(new Person());
+                    break;
+                case "cr":
+                case "createReminder":
+                    createRecord(new Reminder());
                     break;
                 case "help":
                     showHelp();
@@ -149,6 +153,26 @@ public class Main {
 
             return result;
         }
+    }
+
+    public static Date askDate(String msg) {
+        DateFormat format = new SimpleDateFormat("dd-M-yyyy");
+               //, Locale.US);
+        Date date = null;
+        // while (true)
+        //    try {
+        //        Date date1 = new SimpleDateFormat("dd/mm/yyyy").parse(askString("Enter date"));
+        //       return date1;
+        while (date == null) {
+            String sdate = askString("Enter date .For example " + format.format(new Date()));
+            try {
+                date = format.parse(sdate);
+
+            } catch (ParseException e) {
+            System.out.println("Sorry, that's not valid. Please try again.");
+            }
+        }
+        return date;
     }
 }
 
