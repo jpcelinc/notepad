@@ -1,9 +1,11 @@
 package lv.ctco.notepad;
 
-import java.text.DateFormat;
-import java.text.ParseException;
+//import java.text.DateFormat;
+//import java.text.ParseException;
 //import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+//import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.*;
@@ -13,7 +15,9 @@ import static java.time.LocalDate.*;
 
 public class Main {
     public static final String DATE_PATTERN = "dd-MM-uuuu";
+    public static final String TIME_PATTERN = "HH:mm";
     public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(DATE_PATTERN);
+    public static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern(TIME_PATTERN);
     static Scanner scanner = new Scanner(System.in);
     static List<Record> records = new ArrayList<>();
 
@@ -32,6 +36,10 @@ public class Main {
                 case "cr":
                 case "createReminder":
                     createRecord(new Reminder());
+                    break;
+                case "ca":
+                case "createAlarm":
+                    createRecord(new Alarm());
                     break;
                 case "help":
                     showHelp();
@@ -172,10 +180,25 @@ public class Main {
                 date = LocalDate.parse(sdate, DATE_FORMATTER);
             } catch (DateTimeParseException e) {
                 System.out.println("invalid date");
-                       }
+            }
 
         }
         return date;
+    }
+
+    public static LocalTime askTime(String s) {
+        LocalTime time = null;
+
+        while (time == null) {
+            try {
+                String stime = askString("Enter time .For example '" + LocalTime.now().format(Main.TIME_FORMATTER) + "'");
+                time = LocalTime.parse(stime, TIME_FORMATTER);
+            } catch (DateTimeParseException e) {
+                System.out.println("invalid time");
+            }
+
+        }
+        return time;
     }
 }
 
