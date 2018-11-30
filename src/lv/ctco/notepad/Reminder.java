@@ -8,7 +8,7 @@ import java.util.Date;
  */
 public class Reminder
         extends StickNote {
-  //  private String text;
+    //  private String text;
     private Date date;
 
 
@@ -24,22 +24,21 @@ public class Reminder
     public String toString() {
         return "Reminder{" +
                 "Id='" + getId() + '\'' +
-                ", Text='" + super.getText() + '\'' +
-              //  ", Date='" + date.toString() + '\'' +
                 ", Date='" + date.toInstant().atZone(ZoneId.systemDefault()).toString() + '\'' +
+                ", Text='" + super.getText() + '\'' +
                 '}';
     }
 
     @Override
     public boolean contains(String str) {
-        return super.getText().toLowerCase().contains(str)
+        return super.contains(str)
                 || date.toString().contains(str);
     }
 
     @Override
     public void askData() {
-       super.askData();
         date = Main.askDate("Enter date");
+        super.askData();
 
     }
 }
