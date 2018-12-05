@@ -37,7 +37,7 @@ public class Alarm
 
     @Override
     public void askData() {
-        time = Main.askTime("Enter time");
+        time = Main.askTime("Enter time. ");
         super.askData();
 
     }
