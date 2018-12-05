@@ -3,14 +3,16 @@ package lv.ctco.notepad;
 //import java.text.DateFormat;
 //import java.text.ParseException;
 //import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-//import java.time.LocalDateTime;
-import java.time.LocalTime;
+
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.InputMismatchException;
+import java.util.List;
+import java.util.Scanner;
 
-import static java.time.LocalDate.*;
+//import java.time.LocalDateTime;
 
 
 public class Main {
@@ -53,6 +55,14 @@ public class Main {
                 case "createNote":
                     createRecord(new StickNote());
                     break;
+                case "fd":
+                case "calcDuration":
+                    calcDuration();
+                    break;
+                case "fa":
+                case "calcArrive":
+                    calcArrive();
+                    break;
                 case "exit":
                     return;
                 default:
@@ -60,6 +70,7 @@ public class Main {
             }
         }
     }
+
 
     private static void search() {
         String ss = askString("What do you want to find?");
@@ -176,7 +187,7 @@ public class Main {
 
         while (date == null) {
             try {
-                String sdate = askString("Enter date .For example '" + LocalDate.now().format(Main.DATE_FORMATTER) + "'");
+                String sdate = askString(msg + "For example '" + LocalDate.now().format(Main.DATE_FORMATTER) + "'");
                 date = LocalDate.parse(sdate, DATE_FORMATTER);
             } catch (DateTimeParseException e) {
                 System.out.println("invalid date");
@@ -191,7 +202,7 @@ public class Main {
 
         while (time == null) {
             try {
-                String stime = askString("Enter time .For example '" + LocalTime.now().format(Main.TIME_FORMATTER) + "'");
+                String stime = askString(s + "For example '" + LocalTime.now().format(Main.TIME_FORMATTER) + "'");
                 time = LocalTime.parse(stime, TIME_FORMATTER);
             } catch (DateTimeParseException e) {
                 System.out.println("invalid time");
@@ -199,6 +210,54 @@ public class Main {
 
         }
         return time;
+    }
+
+    public static void calcDuration() {
+        String tz1 = askString("Depart timeZone. (Europe/Copenhagen, America/Montreal, Asia/Kuala_Lumpur )");
+        LocalDate dat1 = askDate("Depart date:");
+        LocalTime t1 = askTime("Depart time:");
+        String tz2 = askString("Arrive timeZone. (Europe/Copenhagen, America/Montreal, Asia/Kuala_Lumpur )");
+        LocalDate dat2 = askDate("Arrive date:");
+        LocalTime t2 = askTime("Arrive time:");
+        LocalDateTime dt1 = LocalDateTime.of(dat1, t1);
+        LocalDateTime dt2 = LocalDateTime.of(dat2, t2);
+        ZonedDateTime zdt1 = dt1.atZone(ZoneId.of(tz1));
+        ZonedDateTime zdt2 = dt2.atZone(ZoneId.of(tz2));
+       // ZoneOffset zoffset1 = zdat1.getOffset();
+       // ZoneOffset zoffset2 = zdat2.getOffset();
+        Duration d = Duration.between(zdt1, zdt2);
+        System.out.println("\n---systemDefault TimeZone = " + ZoneId.systemDefault().toString()
+        + " / " + zdt1.withZoneSameInstant(ZoneId.systemDefault()).format(Main.DATE_FORMATTER) + " " + zdt1.withZoneSameInstant(ZoneId.systemDefault()).format(Main.TIME_FORMATTER)
+        + " -  " + zdt2.withZoneSameInstant(ZoneId.systemDefault()).format(Main.DATE_FORMATTER) + " " + zdt2.withZoneSameInstant(ZoneId.systemDefault()).format(Main.TIME_FORMATTER)
+                + "/---");
+        System.out.println("Depart:" + zdt1.toString());
+        System.out.println("Arrive:" + zdt2.toString());
+        System.out.println("Duration : " + d.toString());
+    }
+    public static void calcArrive() {
+        String tz1 = askString("Depart timeZone. (Europe/Copenhagen, America/Montreal, Asia/Kuala_Lumpur )");
+        LocalDate dat1 = askDate("Depart date:");
+        LocalTime t1 = askTime("Depart time:");
+        String tz2 = askString("Arrive timeZone. (Europe/Copenhagen, America/Montreal, Asia/Kuala_Lumpur )");
+        LocalTime dt = askTime("Duration");
+         //LocalDate dat2 = askDate("Arrive date");
+        //LocalTime t2 = askTime("Arrive time");
+        LocalDateTime dt1 = LocalDateTime.of(dat1, t1);
+        LocalDateTime dt2 = dt1.plusHours(dt.getHour()).plusMinutes(dt.getMinute());
+       // LocalDateTime dt2 = LocalDateTime.of(dat1, t1.plusHours(dt.getHour()).plusMinutes(dt.getMinute()));
+        ZonedDateTime zdt1 = dt1.atZone(ZoneId.of(tz1));
+     //   ZonedDateTime zdt2 = dt2.atZone(ZoneId.of(tz2));
+        ZonedDateTime zdt2 = zdt1.plusHours(dt.getHour()).plusMinutes(dt.getMinute()).withZoneSameInstant(ZoneId.of(tz2));
+        // ZoneOffset zoffset1 = zdat1.getOffset();
+        // ZoneOffset zoffset2 = zdat2.getOffset();
+        Duration d = Duration.between(zdt1, zdt2);
+        System.out.println("\n---systemDefault TimeZone = " + ZoneId.systemDefault().toString()
+                + " / " + zdt1.withZoneSameInstant(ZoneId.systemDefault()).format(Main.DATE_FORMATTER) + " " + zdt1.withZoneSameInstant(ZoneId.systemDefault()).format(Main.TIME_FORMATTER)
+                + " -  " + zdt2.withZoneSameInstant(ZoneId.systemDefault()).format(Main.DATE_FORMATTER) + " " + zdt2.withZoneSameInstant(ZoneId.systemDefault()).format(Main.TIME_FORMATTER)
+                + "/---");
+        System.out.println("Depart:" + zdt1.toString());
+        System.out.println("Arrive:" + zdt2.toString());
+        System.out.println("Duration : " + d.toString());
     }
 }
 
