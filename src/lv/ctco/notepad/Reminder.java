@@ -41,7 +41,7 @@ public class Reminder
 
     @Override
     public void askData() {
-        date = Main.askDate("Enter date");
+        date = Main.askDate("Enter date. ");
         super.askData();
 
     }
