@@ -1,6 +1,7 @@
 package lv.ctco.notepad;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 //import java.time.ZoneId;
 //import java.time.format.DateTimeFormatter;
 
@@ -9,10 +10,10 @@ import java.time.LocalDate;
  * Created by S3BNUS on 2018.11.28..
  */
 public class Reminder
-        extends Alarm {
+        extends Alarm implements Expirable {
     //  private String text;
     private LocalDate date;
-
+    private boolean dissmissed = false;
 
     public LocalDate getDate() {
         return date;
@@ -20,6 +21,20 @@ public class Reminder
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+
+    public void dissmiss() {
+        dissmissed = true;
+    }
+
+    @Override
+    public boolean isExpired() {
+        if (dissmissed) {
+            return false;
+        }
+        LocalDateTime now = LocalDateTime.now();
+        return now.isAfter(LocalDateTime.of(date, super.getTime()));
     }
 
     @Override
