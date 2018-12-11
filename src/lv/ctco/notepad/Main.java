@@ -31,12 +31,19 @@ public class Main {
                 case "expired":
                     listExpired();
                     break;
+                case "birthday":
+                    listBirthday();
+                    break;
                 case "search":
                     search();
                     break;
                 case "cp":
                 case "createPerson":
                     createRecord(new Person());
+                    break;
+                case "ce":
+                case "createPet":
+                    createRecord(new Pet());
                     break;
                 case "cr":
                 case "createReminder":
@@ -72,6 +79,15 @@ public class Main {
                     System.out.println("Wrong command. Try 'help'");
             }
         }
+    }
+
+    private static void listBirthday() {
+        records.stream()
+                .filter(r -> r instanceof WithBirthday)
+                .map(r -> (WithBirthday) r)
+                .filter(e -> e.hasBirthdayThisM())
+                .forEach(e -> System.out.println(e));
+
     }
 
     private static void dissmiss() {
