@@ -1,16 +1,19 @@
 package lv.ctco.notepad;
 
+import java.time.LocalDate;
+
 /**
  * Created by yelena.pchelinceva on 11/16/2018.
  */
 public class
-Person extends Record {
+Person extends Record implements WithBirthday {
 
     private String firstName;
     private String lastName;
     private String email;
     private String phone;
     private String gender;
+    private LocalDate birthday;
 
 
     public String getFirstName() {
@@ -54,6 +57,14 @@ Person extends Record {
         this.gender = gender;
     }
 
+    public LocalDate getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(LocalDate birthday) {
+        this.birthday = birthday;
+    }
+
     @Override
     public String toString() {
         return "Person{" +
@@ -63,6 +74,7 @@ Person extends Record {
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
                 ", gender='" + gender + '\'' +
+                ", birthday='" + birthday.format(Main.DATE_FORMATTER) + '\'' +
                 '}';
     }
 
@@ -73,7 +85,9 @@ Person extends Record {
                 || gender.toLowerCase().contains(str)
                 || email.toLowerCase().contains(str)
                 || phone.toLowerCase().contains(str)
-                ;
+                || gender.toLowerCase().contains(str)
+                || birthday.toString().contains(str);
+
     }
 
     @Override
@@ -84,7 +98,15 @@ Person extends Record {
          gender = Main.askString("Gender");
          email = Main.askString("Email");
          phone = Main.askPhone("Phone");
-
+         birthday = Main.askDate("Person birthday");
+    }
+    @Override
+    public boolean hasBirthdayThisM() {
+       LocalDate now = LocalDate.now();
+        if (now.getMonth().getValue() == birthday.getMonth().getValue()) {
+            return true;
+        }
+       return false;
     }
 }
 
