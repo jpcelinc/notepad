@@ -18,7 +18,8 @@ public class Main {
     public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(DATE_PATTERN);
     public static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern(TIME_PATTERN);
     static Scanner scanner = new Scanner(System.in);
-    static List<Record> records = new ArrayList<>();
+   //
+   static Map<Integer,Record> records = new TreeMap<>();
 
     public static void main(String[] args) {
         for (; ; ) {
@@ -82,7 +83,7 @@ public class Main {
     }
 
     private static void listBirthday() {
-        records.stream()
+        records.values().stream()
                 .filter(r -> r instanceof WithBirthday)
                 .map(r -> (WithBirthday) r)
                 .filter(e -> e.hasBirthdayThisM())
@@ -92,20 +93,26 @@ public class Main {
 
     private static void dissmiss() {
         int id = askInt("ID to dissmiss");
-        Optional<Expirable> first = records.stream()
-                .filter(r -> r.getId() == id)
-                .filter(r -> r instanceof Expirable)
-                .map(r -> (Expirable) r)
-                .filter(Expirable::isExpired)
-                .findFirst();
-        first.ifPresent(Expirable::dissmiss);
+        Record r = records.get(id);
+        if (r instanceof Expirable ){
+            ((Expirable) r).dissmiss();
+        }
+
+       // Optional<Expirable> first = records.stream()
+       //         .filter(r -> r.getId() == id)
+        //        .filter(r -> r instanceof Expirable)
+//                .map(r -> (Expirable) r)
+//                .filter(Expirable::isExpired)
+//                .findFirst();
+//        first.ifPresent(Expirable::dissmiss);
 
 
 
     }
 
     private static void listExpired() {
-        records.stream()
+
+       records.values().stream()
                 .filter(r -> r instanceof Expirable)
                 .map(r -> (Expirable) r)
                 .filter(e -> e.isExpired())
@@ -126,7 +133,7 @@ public class Main {
 
     private static void search() {
         String ss = askString("What do you want to find?");
-        records.stream()
+        records.values().stream()
                 .filter(r -> r.contains(ss.toLowerCase()))
                 .forEach(System.out::println);
 
@@ -136,7 +143,7 @@ public class Main {
 
     private static void createRecord(Record record) {
         record.askData();
-        records.add(record);
+        records.put(record.getId(),record);
         System.out.println(record);
     }
 
@@ -153,22 +160,23 @@ public class Main {
 
     private static void deletePersonById() {
         int id = askInt("ID to delete");
-        if (records.isEmpty()) {
-            System.out.println("Person is empty");
-        } else {
-            for (int i = 0; i < records.size(); i++) {
-                Record p = records.get(i);
-                if (p.getId() == id) {
-                    records.remove(i);
-                    break;
-                }
-            }
+        records.remove(id);
+//        if (records.isEmpty()) {
+//            System.out.println("Person is empty");
+//        } else {
+//            for (int i = 0; i < records.size(); i++) {
+//                Record p = records.get(i);
+//                if (p.getId() == id) {
+//                    records.remove(i);
+//                    break;
+//                }
+//            }
             showList();
-        }
+ //       }
     }
 
     private static void showList() {
-        records.forEach(System.out::println);
+        records.values().forEach(System.out::println);
     }
 
     private static void showHelp() {
